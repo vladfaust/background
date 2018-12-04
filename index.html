@@ -159,8 +159,7 @@
 
 <h3>Example</h3>
 
-<pre><code class="language-crystal"><span class="c"># app.cr</span>
-<span class="k">require</span> <span class="s">&quot;onyx-background&quot;</span>
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;onyx-background&quot;</span>
 
 <span class="k">struct</span> <span class="t">Jobs</span><span class="t">::</span><span class="t">Nap</span>
   <span class="k">include</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Job</span>
@@ -173,32 +172,27 @@
   <span class="k">end</span>
 <span class="k">end</span>
 
-background <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span>.<span class="k">new</span>
-background.enqueue(<span class="t">Jobs</span><span class="t">::</span><span class="t">Nap</span>.<span class="k">new</span>(<span class="n">3</span>))
+manager <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Manager</span>.<span class="k">new</span>
+manager.enqueue(<span class="t">Jobs</span><span class="t">::</span><span class="t">Nap</span>.<span class="k">new</span>)
 
-puts <span class="s">&quot;Enqueued&quot;</span></code></pre>
+puts <span class="s">&quot;Enqueued&quot;</span>
 
-<p>Worker side:</p>
-
-<pre><code class="language-crystal"><span class="c"># worker.cr</span>
-<span class="k">require</span> <span class="s">&quot;onyx-background&quot;</span>
-
-worker <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Worker</span>.<span class="k">new</span>
+logger <span class="o">=</span> <span class="t">Logger</span>.<span class="k">new</span>(<span class="t">STDOUT</span>, <span class="t">Logger</span><span class="t">::</span><span class="t">DEBUG</span>)
+worker <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Worker</span>.<span class="k">new</span>(logger: logger)
 worker.run</code></pre>
 
 <pre><code class="language-console">$ crystal app.cr
 Enqueued
-$ crystal worker.cr
 I -- worker: Working...
 D -- worker: Waiting for a new job...
 D -- worker: [fa5b6d65-46fe-4c88-829f-d69023c4c6de] Attempting
 D -- worker: [fa5b6d65-46fe-4c88-829f-d69023c4c6de] Performing Jobs::Nap {"sleep":1}...
-D -- worker: [fa5b6d65-46fe-4c88-829f-d69023c4c6de] Completed
-D -- worker: Waiting for a new job...</code></pre>
+D -- worker: Waiting for a new job...
+D -- worker: [fa5b6d65-46fe-4c88-829f-d69023c4c6de] Completed</code></pre>
 
 <p>It's also highly recommended to run a Watcher process to watch for stale jobs. If you're queuing delayed jobs, the Watcher is <strong>required</strong> to move the jobs to the ready queue on time:</p>
 
-<pre><code><span class="c"># watcher.cr</span>
+<pre><code class="language-crystal"><span class="c"># watcher.cr</span>
 <span class="k">require</span> <span class="s">&quot;onyx-background&quot;</span>
 
 watcher <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Watcher</span>.<span class="k">new</span>
