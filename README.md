@@ -52,7 +52,6 @@ Please refer to API documentation available online: [https://api.onyxframework.o
 ### Example
 
 ```crystal
-# app.cr
 require "onyx-background"
 
 struct Jobs::Nap
@@ -66,37 +65,30 @@ struct Jobs::Nap
   end
 end
 
-background = Onyx::Background.new
-background.enqueue(Jobs::Nap.new(3))
+manager = Onyx::Background::Manager.new
+manager.enqueue(Jobs::Nap.new)
 
 puts "Enqueued"
-```
 
-Worker side:
-
-```crystal
-# worker.cr
-require "onyx-background"
-
-worker = Onyx::Background::Worker.new
+logger = Logger.new(STDOUT, Logger::DEBUG)
+worker = Onyx::Background::Worker.new(logger: logger)
 worker.run
 ```
 
 ```console
 $ crystal app.cr
 Enqueued
-$ crystal worker.cr
 I -- worker: Working...
 D -- worker: Waiting for a new job...
 D -- worker: [fa5b6d65-46fe-4c88-829f-d69023c4c6de] Attempting
 D -- worker: [fa5b6d65-46fe-4c88-829f-d69023c4c6de] Performing Jobs::Nap {"sleep":1}...
-D -- worker: [fa5b6d65-46fe-4c88-829f-d69023c4c6de] Completed
 D -- worker: Waiting for a new job...
+D -- worker: [fa5b6d65-46fe-4c88-829f-d69023c4c6de] Completed
 ```
 
 It's also highly recommended to run a Watcher process to watch for stale jobs. If you're queuing delayed jobs, the Watcher is **required** to move the jobs to the ready queue on time:
 
-```
+```crystal
 # watcher.cr
 require "onyx-background"
 
