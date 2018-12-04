@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.27.0">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "";
+</script>
+
+  <meta id="repository-name" content="github.com/onyxframework/background">
+  <title>README - github.com/onyxframework/background</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Onyx" data-name="onyx">
+      <a href="Onyx.html">Onyx</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Onyx/Background" data-name="onyx::background">
+      <a href="Onyx/Background.html">Background</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Job" data-name="onyx::background::job">
+      <a href="Onyx/Background/Job.html">Job</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/JobNotFoundByUUID" data-name="onyx::background::jobnotfoundbyuuid">
+      <a href="Onyx/Background/JobNotFoundByUUID.html">JobNotFoundByUUID</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Manager" data-name="onyx::background::manager">
+      <a href="Onyx/Background/Manager.html">Manager</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Watcher" data-name="onyx::background::watcher">
+      <a href="Onyx/Background/Watcher.html">Watcher</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Worker" data-name="onyx::background::worker">
+      <a href="Onyx/Background/Worker.html">Worker</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Redis" data-name="redis">
+      <a href="Redis.html">Redis</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Redis/Commands" data-name="redis::commands">
+      <a href="Redis/Commands.html">Commands</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Redis/Commands/ClientType" data-name="redis::commands::clienttype">
+      <a href="Redis/Commands/ClientType.html">ClientType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1>Onyx::Background</h1>
+
+<p><a href="https://crystal-lang.org" target="_blank"><img src="https://img.shields.io/badge/built%20with-crystal-000000.svg?style=flat-square" alt="Built with Crystal"/></a>
+<a href="https://travis-ci.com/onyxframework/background" target="_blank"><img src="https://img.shields.io/travis/com/onyxframework/background/master.svg?style=flat-square" alt="Travis CI build"/></a>
+<a href="https://api.onyxframework.org/background" target="_blank"><img src="https://img.shields.io/badge/api_docs-online-brightgreen.svg?style=flat-square" alt="API docs"/></a>
+<a href="https://github.com/onyxframework/background/releases" target="_blank"><img src="https://img.shields.io/github/release/onyxframework/background.svg?style=flat-square" alt="Latest release"/></a></p>
+
+<p>A fast background job processing for <a href="https://crystal-lang.org" target="_blank">Crystal</a>.</p>
+
+<h2>About</h2>
+
+<p>This is a <a href="https://redis.io" target="_blank">Redis</a>-based background jobs processing for <a href="https://crystal-lang.org" target="_blank">Crystal</a> alternative to <a href="https://github.com/mperham/sidekiq.cr" target="_blank">sidekiq</a> and <a href="https://github.com/robacarp/mosquito" target="_blank">mosquito</a>. It's a component of <a href="https://github.com/onyxframework" target="_blank">Onyx Framework</a>, but can be used separately.</p>
+
+<h3>Features</h3>
+
+<p>This publicly available <a href="LICENSE" target="_blank">open-source</a> version has the following functionality:</p>
+
+<ul><li>Enqueuing jobs for immediate processing</li><li>Enqueuing jobs for delayed processing (i.e. <code>in: 5.minutes</code> or <code>at: Time.now + 1.hour</code>)</li><li>Different job queues (<code>"default"</code> by default)</li><li>Concurrent jobs processing (with a separate Redis client for each fiber)</li><li>Verbose Redis logging of all the acivity (all attempts made -- completed, processing and failing attempts lists)</li><li>Moving stale jobs (i.e. with dead workers) to the failed list</li></ul>
+
+<h3>Performance</h3>
+
+<p>Thorough benchmaring to be done yet, however, currently a single Worker is able to process more than <strong>7500 jobs per second</strong> on my 0.9GHz machine with Redis instance running on itself.</p>
+
+<h2>Installation</h2>
+
+<p>Add this to your application's <code>shard.yml</code>:</p>
+
+<pre><code class="language-yaml">dependencies:
+  onyx-background:
+    github: onyxframework/background
+    version: ~> 0.1.0</code></pre>
+
+<p>This shard follows <a href="http://semver.org/" target="_blank">Semantic Versioning v2.0.0</a>, so check <a href="https://github.com/onyxframework/background/releases" target="_blank">releases</a> and change the <code>version</code> accordingly.</p>
+
+<h2>Usage</h2>
+
+<h3>API docs</h3>
+
+<p>Please refer to API documentation available online: <a href="https://api.onyxframework.org/background" target="_blank">https://api.onyxframework.org/background</a></p>
+
+<p><em>Note: it is updated on every master branch commit</em></p>
+
+<h3>Example</h3>
+
+<pre><code class="language-crystal"><span class="c"># app.cr</span>
+<span class="k">require</span> <span class="s">&quot;onyx-background&quot;</span>
+
+<span class="k">struct</span> <span class="t">Jobs</span><span class="t">::</span><span class="t">Nap</span>
+  <span class="k">include</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Job</span>
+
+  <span class="k">def</span> <span class="m">initialize</span>(@sleep : <span class="t">Int32</span> <span class="o">=</span> <span class="n">1</span>)
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="m">perform</span>
+    sleep(@sleep)
+  <span class="k">end</span>
+<span class="k">end</span>
+
+background <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span>.<span class="k">new</span>
+background.enqueue(<span class="t">Jobs</span><span class="t">::</span><span class="t">Nap</span>.<span class="k">new</span>(<span class="n">3</span>))
+
+puts <span class="s">&quot;Enqueued&quot;</span></code></pre>
+
+<p>Worker side:</p>
+
+<pre><code class="language-crystal"><span class="c"># worker.cr</span>
+<span class="k">require</span> <span class="s">&quot;onyx-background&quot;</span>
+
+worker <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Worker</span>.<span class="k">new</span>
+worker.run</code></pre>
+
+<pre><code class="language-console">$ crystal app.cr
+Enqueued
+$ crystal worker.cr
+I -- worker: Working...
+D -- worker: Waiting for a new job...
+D -- worker: [fa5b6d65-46fe-4c88-829f-d69023c4c6de] Attempting
+D -- worker: [fa5b6d65-46fe-4c88-829f-d69023c4c6de] Performing Jobs::Nap {"sleep":1}...
+D -- worker: [fa5b6d65-46fe-4c88-829f-d69023c4c6de] Completed
+D -- worker: Waiting for a new job...</code></pre>
+
+<p>It's also highly recommended to run a Watcher process to watch for stale jobs. If you're queuing delayed jobs, the Watcher is <strong>required</strong> to move the jobs to the ready queue on time:</p>
+
+<pre><code><span class="c"># watcher.cr</span>
+<span class="k">require</span> <span class="s">&quot;onyx-background&quot;</span>
+
+watcher <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Watcher</span>.<span class="k">new</span>
+watcher.run</code></pre>
+
+<h2>Development</h2>
+
+<p>Redis is flushed during the spec, so you <strong>must</strong> specify a safe-to-flush Redis database in the <code>REDIS_URL</code>. To run the specs, use the following command:</p>
+
+<pre><code class="language-console">$ env REDIS_URL=redis://localhost:6379/1 crystal spec</code></pre>
+
+<h2>Contributing</h2>
+
+<ol><li>Fork it (&lt;https://github.com/onyxframework/background/fork>)</li><li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li><li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li><li>Push to the branch (<code>git push origin my-new-feature</code>)</li><li>Create a new Pull Request</li></ol>
+
+<h2>Contributors</h2>
+
+<ul><li><a href="https://github.com/vladfaust" target="_blank">@vladfaust</a> Vlad Faust - creator, maintainer</li></ul>
+
+<h2>Licensing</h2>
+
+<p>This software is licensed under BSD 3-Clause License with "Commons Clause" License Condition v1.0. See <a href="LICENSE" target="_blank">LICENSE</a>.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.27.0">
+
+
+<link href="../../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../../";
+</script>
+
+  <meta id="repository-name" content="github.com/onyxframework/background">
+  <title>Onyx::Background::Manager - github.com/onyxframework/background</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/onyxframework/background/Onyx" data-name="onyx">
+      <a href="../../Onyx.html">Onyx</a>
+      
+        <ul>
+  
+  <li class="parent open current" data-id="github.com/onyxframework/background/Onyx/Background" data-name="onyx::background">
+      <a href="../../Onyx/Background.html">Background</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Job" data-name="onyx::background::job">
+      <a href="../../Onyx/Background/Job.html">Job</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/JobNotFoundByUUID" data-name="onyx::background::jobnotfoundbyuuid">
+      <a href="../../Onyx/Background/JobNotFoundByUUID.html">JobNotFoundByUUID</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/onyxframework/background/Onyx/Background/Manager" data-name="onyx::background::manager">
+      <a href="../../Onyx/Background/Manager.html">Manager</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Watcher" data-name="onyx::background::watcher">
+      <a href="../../Onyx/Background/Watcher.html">Watcher</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Worker" data-name="onyx::background::worker">
+      <a href="../../Onyx/Background/Worker.html">Worker</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Redis" data-name="redis">
+      <a href="../../Redis.html">Redis</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Redis/Commands" data-name="redis::commands">
+      <a href="../../Redis/Commands.html">Commands</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Redis/Commands/ClientType" data-name="redis::commands::clienttype">
+      <a href="../../Redis/Commands/ClientType.html">ClientType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Onyx::Background::Manager
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Onyx/Background/Manager.html">Onyx::Background::Manager</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>Overview</h2>
+
+  <p>The background processing manager.</p>
+
+<p>It's intended for use within an application to enqueue and dequeue jobs.</p>
+
+<p>Apart from a standard <code><a href="../../Redis.html">Redis</a></code> instance, the Manager supports
+<a href="http://stefanwille.github.io/crystal-redis/Redis/TransactionApi.html" target="_blank"><code>Redis::TransactionApi</code></a>
+and <a href="http://stefanwille.github.io/crystal-redis/Redis/PipelineApi.html" target="_blank"><code>Redis::PipelineApi</code></a>,
+which allows to use it in a <code>multi</code> or <code>pipelined</code> block:</p>
+
+<pre><code>redis.pipelined <span class="k">do</span> <span class="o">|</span>pipe<span class="o">|</span>
+  manager <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Manager</span>.<span class="k">new</span>(pipe)
+
+  <span class="n">100</span>.times <span class="k">do</span>
+    manager.enqueue(<span class="t">MyJob</span>) <span class="c"># All 100 enqueues will happen in one pipe, which is much faster</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/manager.cr#L21" target="_blank">
+        onyx-background/manager.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28redis%3ARedis%7CRedis%3A%3ATransactionApi%7CRedis%3A%3APipelineApi%3DRedis.new%2Cnamespace%3AString%3D%26quot%3Bonyx-background%26quot%3B%29-class-method" class="signature"><strong>.new</strong>(redis : Redis | Redis::TransactionApi | Redis::PipelineApi = <span class="t">Redis</span>.<span class="k">new</span>, namespace : String = <span class="s">&quot;onyx-background&quot;</span>)</a>
+        
+          <div class="summary"><p>Initialize a new <code><a href="../../Onyx/Background/Manager.html">Manager</a></code>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#dequeue%28job_uuiduuid%3AUUID%7CString%29-instance-method" class="signature"><strong>#dequeue</strong>(job_uuid uuid : UUID | String)</a>
+        
+          <div class="summary"><p>Remove a job by its <em>job_uuid</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#enqueue%28job%3AJob%2C%2A%2Anargs%29-instance-method" class="signature"><strong>#enqueue</strong>(job : Job, **nargs)</a>
+        
+          <div class="summary"><p>Enqueue a <em>job</em> instance.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#enqueue%28job%3AJob.class%2C%2A%2Anargs%29-instance-method" class="signature"><strong>#enqueue</strong>(job : Job.class, **nargs)</a>
+        
+          <div class="summary"><p>Enqueue a <em>job</em> by its class (will be instantiated without arguments).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#enqueue%28classklass%3AString%2Cpayload%3AString%3D%26quot%3B%7B%7D%26quot%3B%2C%2A%2Cqueue%3AString%3D%26quot%3Bdefault%26quot%3B%2Cin%3ATime%3A%3ASpan%3F%3Dnil%2Cat%3ATime%3F%3Dnil%29-instance-method" class="signature"><strong>#enqueue</strong>(class klass : String, payload : String = <span class="s">&quot;{}&quot;</span>, *, queue : String = <span class="s">&quot;default&quot;</span>, in : Time::Span? = <span class="n">nil</span>, at : Time? = <span class="n">nil</span>)</a>
+        
+          <div class="summary"><p>Enqueue a job by its <em>class</em> name with JSON <em>payload</em>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(redis:Redis|Redis::TransactionApi|Redis::PipelineApi=Redis.new,namespace:String=&amp;quot;onyx-background&amp;quot;)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(redis : <a href="../../Redis.html">Redis</a> | Redis::TransactionApi | Redis::PipelineApi = <span class="t">Redis</span>.<span class="k">new</span>, namespace : String = <span class="s">&quot;onyx-background&quot;</span>)
+
+        <a class="method-permalink" href="#new%28redis%3ARedis%7CRedis%3A%3ATransactionApi%7CRedis%3A%3APipelineApi%3DRedis.new%2Cnamespace%3AString%3D%26quot%3Bonyx-background%26quot%3B%29-class-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Initialize a new <code><a href="../../Onyx/Background/Manager.html">Manager</a></code>.</p>
+
+<p>Arguments:</p>
+
+<ul><li><em>redis</em> -- a Redis instance to use</li><li><em>namespace</em> -- a Redis namespace to work in</li></ul></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/manager.cr#L36" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="dequeue(job_uuiduuid:UUID|String)-instance-method">
+      <div class="signature">
+        
+        def <strong>dequeue</strong>(job_uuid uuid : UUID | String)
+
+        <a class="method-permalink" href="#dequeue%28job_uuiduuid%3AUUID%7CString%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Remove a job by its <em>job_uuid</em>.
+Raises <code><a href="../../Onyx/Background/JobNotFoundByUUID.html">JobNotFoundByUUID</a></code> if the job itself is not found or its queue in <code>nil</code>.
+Returns falsey value if the job is not in the queue,
+which means it's either already performed, removed or never been there.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/manager.cr#L146" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="enqueue(job:Job,**nargs)-instance-method">
+      <div class="signature">
+        
+        def <strong>enqueue</strong>(job : <a href="../../Onyx/Background/Job.html">Job</a>, **nargs)
+
+        <a class="method-permalink" href="#enqueue%28job%3AJob%2C%2A%2Anargs%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Enqueue a <em>job</em> instance. See <a href="#enqueue%28classklass%3AString%2Cpayload%3AString%3D%26quot%3B%7B%7D%26quot%3B%2C%2A%2Cqueue%3AString%3D%26quot%3Bdefault%26quot%3B%2Cin%3ATime%3A%3ASpan%3F%3Dnil%2Cat%3ATime%3F%3Dnil%29-instance-method" target="_blank"><code>#enqueue</code></a> for options.</p>
+
+<p>Example:</p>
+
+<pre><code>manager.enqueue(<span class="t">MyJob</span>.<span class="k">new</span>(<span class="n">5</span>), at: <span class="t">Time</span>.now <span class="o">+</span> <span class="n">5</span>.minutes)</code></pre></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/manager.cr#L55" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="enqueue(job:Job.class,**nargs)-instance-method">
+      <div class="signature">
+        
+        def <strong>enqueue</strong>(job : Job.class, **nargs)
+
+        <a class="method-permalink" href="#enqueue%28job%3AJob.class%2C%2A%2Anargs%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Enqueue a <em>job</em> by its class (will be instantiated without arguments).
+See <a href="#enqueue%28classklass%3AString%2Cpayload%3AString%3D%26quot%3B%7B%7D%26quot%3B%2C%2A%2Cqueue%3AString%3D%26quot%3Bdefault%26quot%3B%2Cin%3ATime%3A%3ASpan%3F%3Dnil%2Cat%3ATime%3F%3Dnil%29-instance-method" target="_blank"><code>#enqueue</code></a> for options.</p>
+
+<p>Example:</p>
+
+<pre><code>manager.enqueue(<span class="t">MyJob</span>, <span class="k">in</span>: <span class="n">5</span>.minutes)</code></pre></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/manager.cr#L67" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="enqueue(classklass:String,payload:String=&amp;quot;{}&amp;quot;,*,queue:String=&amp;quot;default&amp;quot;,in:Time::Span?=nil,at:Time?=nil)-instance-method">
+      <div class="signature">
+        
+        def <strong>enqueue</strong>(class klass : String, payload : String = <span class="s">&quot;{}&quot;</span>, *, queue : String = <span class="s">&quot;default&quot;</span>, in : Time::Span? = <span class="n">nil</span>, at : Time? = <span class="n">nil</span>)
+
+        <a class="method-permalink" href="#enqueue%28classklass%3AString%2Cpayload%3AString%3D%26quot%3B%7B%7D%26quot%3B%2C%2A%2Cqueue%3AString%3D%26quot%3Bdefault%26quot%3B%2Cin%3ATime%3A%3ASpan%3F%3Dnil%2Cat%3ATime%3F%3Dnil%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Enqueue a job by its <em>class</em> name with JSON <em>payload</em>.</p>
+
+<p>Arguments:</p>
+
+<ul><li><em>queue</em> -- a queue to put the job in</li><li><em>in</em> -- a time span to queue the job in</li><li><em>at</em> -- a time to queue the job at</li></ul>
+
+<p>Example:</p>
+
+<pre><code>manager.enqueue(<span class="s">&quot;SomeNamespace::MyJob&quot;</span>, <span class="s">%Q[{&quot;foo&quot;:&quot;bar&quot;}]</span>, queue: <span class="s">&quot;regular&quot;</span>, <span class="k">in</span>: <span class="n">5</span>.minutes)</code></pre></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/manager.cr#L84" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

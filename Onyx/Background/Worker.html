@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.27.0">
+
+
+<link href="../../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../../";
+</script>
+
+  <meta id="repository-name" content="github.com/onyxframework/background">
+  <title>Onyx::Background::Worker - github.com/onyxframework/background</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/onyxframework/background/Onyx" data-name="onyx">
+      <a href="../../Onyx.html">Onyx</a>
+      
+        <ul>
+  
+  <li class="parent open current" data-id="github.com/onyxframework/background/Onyx/Background" data-name="onyx::background">
+      <a href="../../Onyx/Background.html">Background</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Job" data-name="onyx::background::job">
+      <a href="../../Onyx/Background/Job.html">Job</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/JobNotFoundByUUID" data-name="onyx::background::jobnotfoundbyuuid">
+      <a href="../../Onyx/Background/JobNotFoundByUUID.html">JobNotFoundByUUID</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Manager" data-name="onyx::background::manager">
+      <a href="../../Onyx/Background/Manager.html">Manager</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Watcher" data-name="onyx::background::watcher">
+      <a href="../../Onyx/Background/Watcher.html">Watcher</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/onyxframework/background/Onyx/Background/Worker" data-name="onyx::background::worker">
+      <a href="../../Onyx/Background/Worker.html">Worker</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Redis" data-name="redis">
+      <a href="../../Redis.html">Redis</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Redis/Commands" data-name="redis::commands">
+      <a href="../../Redis/Commands.html">Commands</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Redis/Commands/ClientType" data-name="redis::commands::clienttype">
+      <a href="../../Redis/Commands/ClientType.html">ClientType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Onyx::Background::Worker
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Onyx/Background/Worker.html">Onyx::Background::Worker</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>Overview</h2>
+
+  <p>Actually performs jobs.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/worker/redis_pool.cr#L1" target="_blank">
+        onyx-background/worker/redis_pool.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/worker.cr#L9" target="_blank">
+        onyx-background/worker.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28queues%3AEnumerable%28String%29%3D%7B%26quot%3Bdefault%26quot%3B%7D%2Cfibers%3AInt32%3D100%2Credis_proc%3AProc%28Redis%29%3D-%3Edo%0ARedis.new%0Aend%2Clogger%3ALogger%3DLogger.new%28STDOUT%29%2Cnamespace%3AString%3D%26quot%3Bonyx-background%26quot%3B%29-class-method" class="signature"><strong>.new</strong>(queues : Enumerable(String) = {<span class="s">&quot;default&quot;</span>}, fibers : Int32 = <span class="n">100</span>, redis_proc : Proc(Redis) = -> <span class="k">do</span>
+  <span class="t">Redis</span>.<span class="k">new</span>
+<span class="k">end</span>, logger : Logger = <span class="t">Logger</span>.<span class="k">new</span>(<span class="t">STDOUT</span>), namespace : String = <span class="s">&quot;onyx-background&quot;</span>)</a>
+        
+          <div class="summary"><p>Initialize a new <code><a href="../../Onyx/Background/Worker.html">Worker</a></code>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#run-instance-method" class="signature"><strong>#run</strong></a>
+        
+          <div class="summary"><p>Begin working.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#running%3F%3ABool-instance-method" class="signature"><strong>#running?</strong> : Bool</a>
+        
+          <div class="summary"><p>Whether is this worker currently working.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#stop%28redis%3ARedis%3DRedis.new%2Cfibers_force_kill%3ABool%3Dfalse%2Cfibers_timeoutfibers_timeout%3F%3ATime%3A%3ASpan%3F%3D1.second%2Cfibers_check_interval%3ATime%3A%3ASpan%3D1.millisecond%29-instance-method" class="signature"><strong>#stop</strong>(redis : Redis = <span class="t">Redis</span>.<span class="k">new</span>, fibers_force_kill : Bool = <span class="n">false</span>, fibers_timeout fibers_timeout? : Time::Span? = <span class="n">1</span>.second, fibers_check_interval : Time::Span = <span class="n">1</span>.millisecond)</a>
+        
+          <div class="summary"><p>Stop this worker.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#stopping%3F%3ABool-instance-method" class="signature"><strong>#stopping?</strong> : Bool</a>
+        
+          <div class="summary"><p>Whether is this worker told to stop (but not necessarily already stopped).</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(queues:Enumerable(String)={&amp;quot;default&amp;quot;},fibers:Int32=100,redis_proc:Proc(Redis)=-&gt;do
+Redis.new
+end,logger:Logger=Logger.new(STDOUT),namespace:String=&amp;quot;onyx-background&amp;quot;)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(queues : Enumerable(String) = {<span class="s">&quot;default&quot;</span>}, fibers : Int32 = <span class="n">100</span>, redis_proc : Proc(<a href="../../Redis.html">Redis</a>) = -> <span class="k">do</span>
+  <span class="t">Redis</span>.<span class="k">new</span>
+<span class="k">end</span>, logger : Logger = <span class="t">Logger</span>.<span class="k">new</span>(<span class="t">STDOUT</span>), namespace : String = <span class="s">&quot;onyx-background&quot;</span>)
+
+        <a class="method-permalink" href="#new%28queues%3AEnumerable%28String%29%3D%7B%26quot%3Bdefault%26quot%3B%7D%2Cfibers%3AInt32%3D100%2Credis_proc%3AProc%28Redis%29%3D-%3Edo%0ARedis.new%0Aend%2Clogger%3ALogger%3DLogger.new%28STDOUT%29%2Cnamespace%3AString%3D%26quot%3Bonyx-background%26quot%3B%29-class-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Initialize a new <code><a href="../../Onyx/Background/Worker.html">Worker</a></code>. Call <code><a href="../../Onyx/Background/Worker.html#run-instance-method">#run</a></code> afterwards to run it.</p>
+
+<pre><code>worker <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Worker</span>.<span class="k">new</span>
+worker.run</code></pre>
+
+<p>Arguments:</p>
+
+<ul><li><em>queues</em> -- the job queues this worker will work on</li><li><em>fibers</em> -- the maximum amount of fibers. Each fiber spawns a Redis client</li><li><em>redis_proc</em> -- a proc to initialize a new Redis client</li><li><em>logger</em> -- a Logger instance for this worker</li><li><em>namespace</em> -- the namespace this worker and its fibers will work in</li></ul></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/worker.cr#L58" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="run-instance-method">
+      <div class="signature">
+        
+        def <strong>run</strong>
+
+        <a class="method-permalink" href="#run-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Begin working. Blocks the runtime.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/worker.cr#L75" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="running?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>running?</strong> : Bool
+
+        <a class="method-permalink" href="#running%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Whether is this worker currently working.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/worker.cr#L42" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="stop(redis:Redis=Redis.new,fibers_force_kill:Bool=false,fibers_timeoutfibers_timeout?:Time::Span?=1.second,fibers_check_interval:Time::Span=1.millisecond)-instance-method">
+      <div class="signature">
+        
+        def <strong>stop</strong>(redis : <a href="../../Redis.html">Redis</a> = <span class="t">Redis</span>.<span class="k">new</span>, fibers_force_kill : Bool = <span class="n">false</span>, fibers_timeout fibers_timeout? : Time::Span? = <span class="n">1</span>.second, fibers_check_interval : Time::Span = <span class="n">1</span>.millisecond)
+
+        <a class="method-permalink" href="#stop%28redis%3ARedis%3DRedis.new%2Cfibers_force_kill%3ABool%3Dfalse%2Cfibers_timeoutfibers_timeout%3F%3ATime%3A%3ASpan%3F%3D1.second%2Cfibers_check_interval%3ATime%3A%3ASpan%3D1.millisecond%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Stop this worker.
+It needs a separate Redis connection to unblock the worker's client remotely.
+Always closes the main <code>#redis</code> connection (but not <code>ensure</code>d).</p>
+
+<ul><li>If <em>fibers_force_kill</em> is <code>true</code>, will force close all underlying fibers' connections,
+active jobs will fail with Redis error</li><li>If <em>fibers_force_kill</em> is <code>false</code> and <em>fibers_timeout</em> is not <code>nil</code>,
+will wait for <em>fibers_timeout</em> until all fibers are completed,
+and force close all fibers if it takes longer time</li><li>If <em>fibers_force_kill</em> is <code>false</code> and <em>fibers_timeout</em> is <code>nil</code>,
+will not wait for fibers to complete, just close the main connection</li></ul></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/worker.cr#L128" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="stopping?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>stopping?</strong> : Bool
+
+        <a class="method-permalink" href="#stopping%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Whether is this worker told to stop (but not necessarily already stopped).</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/onyx-background/worker.cr#L39" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

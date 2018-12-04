@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.27.0">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "";
+</script>
+
+  <meta id="repository-name" content="github.com/onyxframework/background">
+  <title>Redis - github.com/onyxframework/background</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Onyx" data-name="onyx">
+      <a href="Onyx.html">Onyx</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Onyx/Background" data-name="onyx::background">
+      <a href="Onyx/Background.html">Background</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Job" data-name="onyx::background::job">
+      <a href="Onyx/Background/Job.html">Job</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/JobNotFoundByUUID" data-name="onyx::background::jobnotfoundbyuuid">
+      <a href="Onyx/Background/JobNotFoundByUUID.html">JobNotFoundByUUID</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Manager" data-name="onyx::background::manager">
+      <a href="Onyx/Background/Manager.html">Manager</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Watcher" data-name="onyx::background::watcher">
+      <a href="Onyx/Background/Watcher.html">Watcher</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Worker" data-name="onyx::background::worker">
+      <a href="Onyx/Background/Worker.html">Worker</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/onyxframework/background/Redis" data-name="redis">
+      <a href="Redis.html">Redis</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Redis/Commands" data-name="redis::commands">
+      <a href="Redis/Commands.html">Commands</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Redis/Commands/ClientType" data-name="redis::commands::clienttype">
+      <a href="Redis/Commands/ClientType.html">ClientType</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Redis
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="Redis.html">Redis</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>Overview</h2>
+
+  <p>The class is the main entry point for the Redis client.</p>
+
+<p><strong>How to use</strong>:</p>
+
+<p>Require the package:</p>
+
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;redis&quot;</span></code></pre>
+
+<p>Then instantiate this client class:</p>
+
+<pre><code class="language-crystal">redis <span class="o">=</span> <span class="t">Redis</span>.<span class="k">new</span></code></pre>
+
+<p>Then you can call Redis commands on the <code>redis</code> object:</p>
+
+<pre><code class="language-crystal">redis.set(<span class="s">&quot;foo&quot;</span>, <span class="s">&quot;bar&quot;</span>)
+redis.get(<span class="s">&quot;foo&quot;</span>)
+redis.incr(<span class="s">&quot;visitors&quot;</span>)</code></pre>
+
+<p>See the mixin module <a href="Redis/Commands.html" target="_blank">Commands</a> for most
+of the available Redis commands such as #incr, #rename, and so on.</p>
+
+<p><strong>Multithreading / Coroutines</strong></p>
+
+<p>Please mind that a Redis object can't be shared across multiple threads/coroutines!
+Each thread/coroutine that wants to talk to Redis needs its own Redis object instance.</p>
+
+
+
+
+
+  <h2>Included Modules</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type">Redis::CommandExecution::ValueOriented</li>
+  
+    <li class="other-type"><a href="Redis/Commands.html">Redis::Commands</a></li>
+  
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/lib/redis/src/redis/commands.cr#L1" target="_blank">
+        lib/redis/src/redis/commands.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/lib/redis/src/redis/command_execution/value_oriented.cr#L1" target="_blank">
+        lib/redis/src/redis/command_execution/value_oriented.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/lib/redis/src/redis.cr#L37" target="_blank">
+        lib/redis/src/redis.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/lib/redis/src/redis/command_execution/future_oriented.cr#L1" target="_blank">
+        lib/redis/src/redis/command_execution/future_oriented.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/lib/redis/src/redis/strategy/base.cr#L1" target="_blank">
+        lib/redis/src/redis/strategy/base.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/onyxframework/background/blob/eb8e67ebfd11f87aa49a68d7bb44e5d985bb1ef8/src/ext/redis/commands.cr#L1" target="_blank">
+        ext/redis/commands.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="Redis/Commands.html">Redis::Commands</a></code></h3>
+  
+  
+    <a href="Redis/Commands.html#client_getname-instance-method" class="tooltip">
+      <span>client_getname</span>
+    client_getname</a>, 
+    
+  
+    <a href="Redis/Commands.html#client_id-instance-method" class="tooltip">
+      <span>client_id</span>
+    client_id</a>, 
+    
+  
+    <a href="Redis/Commands.html#client_kill%28id%3AInt%29-instance-method" class="tooltip">
+      <span>client_kill(id : Int)</span>
+    client_kill</a>, 
+    
+  
+    <a href="Redis/Commands.html#client_list%28typetype%3F%3AClientType%3F%3Dnil%29-instance-method" class="tooltip">
+      <span>client_list(type type? : ClientType? = <span class="n">nil</span>)</span>
+    client_list</a>, 
+    
+  
+    <a href="Redis/Commands.html#client_setname%28name%3AString%29-instance-method" class="tooltip">
+      <span>client_setname(name : String)</span>
+    client_setname</a>, 
+    
+  
+    <a href="Redis/Commands.html#client_unblock%28id%3AInt%2Cerrorerror%3F%3ABool%3Dfalse%29-instance-method" class="tooltip">
+      <span>client_unblock(id : Int, error error? : Bool = <span class="n">false</span>)</span>
+    client_unblock</a>, 
+    
+  
+    <a href="Redis/Commands.html#fetch_hash%28key%3AString%29-instance-method" class="tooltip">
+      <span>fetch_hash(key : String)<br/>fetch_hash(key : String, *fields)</span>
+    fetch_hash</a>, 
+    
+  
+    <a href="Redis/Commands.html#zpopmax%28key%3AString%2Ccountcount%3F%3AInt32%3F%3Dnil%29-instance-method" class="tooltip">
+      <span>zpopmax(key : String, count count? : Int32? = <span class="n">nil</span>)</span>
+    zpopmax</a>, 
+    
+  
+    <a href="Redis/Commands.html#zpopmin%28key%3AString%2Ccountcount%3F%3AInt32%3F%3Dnil%29-instance-method" class="tooltip">
+      <span>zpopmin(key : String, count count? : Int32? = <span class="n">nil</span>)</span>
+    zpopmin</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+</body>
+</html>
