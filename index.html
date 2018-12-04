@@ -128,13 +128,13 @@
 
 <h3>Features</h3>
 
-<p>This publicly available <a href="LICENSE" target="_blank">open-source</a> version has the following functionality:</p>
+<p>This publicly available open-source version has the following functionality:</p>
 
-<ul><li>Enqueuing jobs for immediate processing</li><li>Enqueuing jobs for delayed processing (i.e. <code>in: 5.minutes</code> or <code>at: Time.now + 1.hour</code>)</li><li>Different job queues (<code>"default"</code> by default)</li><li>Concurrent jobs processing (with a separate Redis client for each fiber)</li><li>Verbose Redis logging of all the acivity (all attempts made -- completed, processing and failing attempts lists)</li><li>Moving stale jobs (i.e. with dead workers) to the failed list</li></ul>
+<ul><li>Enqueuing jobs for immediate processing</li><li>Enqueuing jobs for delayed processing (i.e. <code>in: 5.minutes</code> or <code>at: Time.now + 1.hour</code>)</li><li>Different job queues (<code>"default"</code> by default)</li><li>Concurrent jobs processing (with a separate Redis client for each fiber)</li><li>Verbose Redis logging of all the activity (i.e. every attempt made)</li><li>Moving stale jobs (i.e. with dead workers) to the failed list</li></ul>
 
 <h3>Performance</h3>
 
-<p>Thorough benchmaring to be done yet, however, currently a single Worker is able to process more than <strong>7500 jobs per second</strong> on my 0.9GHz machine with Redis instance running on itself.</p>
+<p>Thorough benchmaring is to be done yet, however, currently a single Worker is able to process more than <strong>7500 jobs per second</strong> on my 0.9GHz machine with Redis instance running on itself.</p>
 
 <h2>Installation</h2>
 
