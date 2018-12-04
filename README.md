@@ -28,6 +28,8 @@ Thorough benchmaring is to be done yet, however, currently a single Worker is ab
 
 ## Installation
 
+Onyx::Background works with Redis version `~> 5.0`.
+
 Add this to your application's `shard.yml`:
 
 ```yaml
