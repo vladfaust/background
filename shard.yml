@@ -1,0 +1,14 @@
+name: onyx-background
+version: 0.1.0
+
+license: BSD-3-Clause
+
+authors:
+  - Vlad Faust <mail@vladfaust.com>
+
+crystal: 0.27.0
+
+dependencies:
+  redis:
+    github: stefanwille/crystal-redis
+    version: ~> 2.1.1
