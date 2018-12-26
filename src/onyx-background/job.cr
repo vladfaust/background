@@ -1,5 +1,5 @@
 require "json"
-require "./worker"
+require "./namespace"
 
 class Onyx::Background
   # Include this module to turn an object into an Onyx Job.
@@ -71,13 +71,15 @@ class Onyx::Background
       class_property queue : String
       @@queue = "default"
 
-      protected def Onyx::Background::Worker.job_class(from : String)
-        if from == {{@type.stringify}}
-          return ::{{@type.name}}
-        else
-          previous_def
+      {% if Onyx::Background.has_constant?("Worker") %}
+        protected def Onyx::Background::Worker.job_class(from : String)
+          if from == {{@type.stringify}}
+            return ::{{@type.name}}
+          else
+            previous_def
+          end
         end
-      end
+      {% end %}
 
       included_pro
       included_ent
