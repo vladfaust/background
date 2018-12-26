@@ -167,7 +167,6 @@ class Onyx::Background::Worker
 
   # Attempt to process a `Job` by its *job_uuid*.
   protected def process_job(client : Redis, client_id : Int64, queue : String, job_uuid : String)
-    @logger.debug("[#{job_uuid}] Attempting")
     started_at = Time.monotonic
 
     begin
