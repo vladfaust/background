@@ -2,7 +2,7 @@ require "logger"
 require "redis"
 require "uuid"
 
-require "../ext/redis/commands"
+require "./ext/redis/commands"
 require "./worker/redis_pool"
 
 # Actually performs jobs.
