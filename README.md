@@ -115,7 +115,7 @@ $ env REDIS_URL=redis://localhost:6379/1 crystal spec
 
 ## Contributors
 
-- [@vladfaust](https://github.com/vladfaust) Vlad Faust - creator, maintainer
+- [Vlad Faust](https://github.com/vladfaust) - creator and maintainer
 
 ## Licensing
 
