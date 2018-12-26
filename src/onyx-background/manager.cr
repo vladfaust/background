@@ -127,7 +127,7 @@ class Onyx::Background::Manager
 
     if at
       # Add the job to the scheduled queue with score = at
-      {{client}}.zadd("#{@namespace}:queues:scheduled:#{queue}", at.to_unix_ms, uuid.to_s)
+      {{client}}.zadd("#{@namespace}:queues:scheduled:#{queue}", at.to_unix_ms, uuid)
     else
       # Add the job to the ready-to-go queue for immediate processing
       {{client}}.rpush("#{@namespace}:queues:ready:#{queue}", uuid)
