@@ -127,10 +127,10 @@ class Onyx::Background::Manager
 
     if at
       # Add the job to the scheduled queue with score = at
-      {{client}}.zadd("#{@namespace}:queues:scheduled:#{queue}", at.to_unix_ms, uuid)
+      {{client}}.zadd("#{@namespace}:scheduled:#{queue}", at.to_unix_ms, uuid)
     else
       # Add the job to the ready-to-go queue for immediate processing
-      {{client}}.rpush("#{@namespace}:queues:ready:#{queue}", uuid)
+      {{client}}.rpush("#{@namespace}:ready:#{queue}", uuid)
     end
   end
 
@@ -152,13 +152,13 @@ class Onyx::Background::Manager
     when Redis
       _, scheduled, ready = redis.as(Redis).multi do |multi|
         multi.del("#{@namespace}:jobs:#{uuid}")
-        multi.zrem("#{@namespace}:queues:scheduled:#{queue}", uuid)
-        multi.lrem("#{@namespace}:queues:ready:#{queue}", 0, uuid)
+        multi.zrem("#{@namespace}:scheduled:#{queue}", uuid)
+        multi.lrem("#{@namespace}:ready:#{queue}", 0, uuid)
       end
     else
       redis.del("#{@namespace}:jobs:#{uuid}")
-      scheduled = redis.zrem("#{@namespace}:queues:scheduled:#{queue}", uuid)
-      ready = redis.lrem("#{@namespace}:queues:ready:#{queue}", 0, uuid)
+      scheduled = redis.zrem("#{@namespace}:scheduled:#{queue}", uuid)
+      ready = redis.lrem("#{@namespace}:ready:#{queue}", 0, uuid)
     end
 
     return (scheduled && scheduled.as(Int64) > 0) || (ready && ready.as(Int64) > 0)

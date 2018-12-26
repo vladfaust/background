@@ -69,7 +69,7 @@ class Onyx::Background::Watcher
       attempt_uuids = Array(String).new
 
       it "adds attempts to failed list" do
-        one, _, two, _ = client.zpopmax("#{namespace}:failed", 2).as(Array).map(&.as(String))
+        one, _, two, _ = client.zpopmax("#{namespace}:failed:default", 2).as(Array).map(&.as(String))
 
         attempt_uuids << one
         attempt_uuids << two
@@ -78,7 +78,7 @@ class Onyx::Background::Watcher
       end
 
       it "doesn't persist attempts in processing list" do
-        client.scard("#{namespace}:processing").should eq 0
+        client.scard("#{namespace}:processing:default").should eq 0
       end
 
       it "updates attempts data" do

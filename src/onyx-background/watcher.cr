@@ -78,27 +78,44 @@ class Onyx::Background::Watcher
       # Check if there are any stale jobs with workers offline
       #
 
-      raw_processing_attempt_uuids = uninitialized Redis::Future
+      raw_processing_attempt_uuids = Hash(String, Redis::Future).new
       client_list = uninitialized Redis::Future
 
       @redis.multi do |multi|
-        raw_processing_attempt_uuids = multi.smembers("#{@namespace}:processing")
         client_list = multi.client_list(:normal)
+
+        @queues.each do |queue|
+          raw_processing_attempt_uuids[queue] = multi.smembers("#{@namespace}:processing:#{queue}")
+        end
       end
 
-      processing_attempt_uuids = raw_processing_attempt_uuids.value.as(Array).map(&.as(String))
+      # Convert results to a Hash(<Queue>, <Array(AttemptUUID)>)
+      #
+
+      processing_attempt_uuids = Hash(String, Array(String)).new
+
+      raw_processing_attempt_uuids.each do |queue, uuids|
+        processing_attempt_uuids[queue] = uuids.value.as(Array).map(&.as(String))
+      end
 
       if processing_attempt_uuids.any?
         # Extract worker fibers only from the client list
+        #
+
         fibers = client_list.value.as(String).split("\n").map do |client|
-          client.match(/id=(?<id>\d+).+name=onyx-background-worker-fiber/).try(&.["id"])
+          client.match(/id=(?<id>\d+).+name=onyx-background-worker-fiber:/).try(&.["id"])
         end.compact
+
+        # Map attempt UUID to a fiber client ID
+        #
 
         hash = Hash(String, Redis::Future).new
 
         @redis.multi do |multi|
-          processing_attempt_uuids.each do |uuid|
-            hash[uuid] = multi.hget("#{@namespace}:attempts:#{uuid}", "wrk")
+          processing_attempt_uuids.each do |queue, uuids|
+            uuids.each do |uuid|
+              hash[uuid] = multi.hget("#{@namespace}:attempts:#{uuid}", "wrk")
+            end
           end
         end
 
@@ -117,17 +134,19 @@ class Onyx::Background::Watcher
           @redis.pipelined do |pipe|
             at = Time.now
 
-            stale_attempts.each do |uuid|
-              @logger.debug("[#{uuid}] Stale attempt, moving to failed")
+            stale_attempts.each do |attempt_uuid|
+              @logger.debug("[#{attempt_uuid}] Stale attempt, moving to failed")
 
               # Update the attempt with error
-              pipe.hset("#{@namespace}:attempts:#{uuid}", "err", "Worker Timeout") # Error
+              pipe.hset("#{@namespace}:attempts:#{attempt_uuid}", "err", "Worker Timeout") # Error
+
+              queue = processing_attempt_uuids.find { |queue, uuids| uuids.includes?(attempt_uuid) }.not_nil![0]
 
               # Remove the attempt from the processing list
-              pipe.srem("#{@namespace}:processing", uuid)
+              pipe.srem("#{@namespace}:processing:#{queue}", attempt_uuid)
 
               # Add the attempt to the failed list
-              pipe.zadd("#{@namespace}:failed", at.to_unix_ms, uuid)
+              pipe.zadd("#{@namespace}:failed:#{queue}", at.to_unix_ms, attempt_uuid)
             end
           end
         end
@@ -137,15 +156,15 @@ class Onyx::Background::Watcher
       #
 
       @queues.each do |queue|
-        ready_jobs = @redis.zrangebyscore("#{@namespace}:queues:scheduled:#{queue}", 0, Time.now.to_unix_ms)
+        ready_jobs = @redis.zrangebyscore("#{@namespace}:scheduled:#{queue}", 0, Time.now.to_unix_ms)
 
         if ready_jobs.any?
           @redis.multi do |multi|
             ready_jobs.each do |uuid|
               @logger.debug("[#{uuid}] Ready, moving to ready queue")
 
-              multi.zrem("#{@namespace}:queues:scheduled:#{queue}", uuid)
-              multi.rpush("#{@namespace}:queues:ready:#{queue}", uuid)
+              multi.zrem("#{@namespace}:scheduled:#{queue}", uuid)
+              multi.rpush("#{@namespace}:ready:#{queue}", uuid)
             end
           end
         end

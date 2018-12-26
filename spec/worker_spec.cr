@@ -48,16 +48,16 @@ class Onyx::Background::Worker
       attempt_uuid = uninitialized String
 
       it "adds attempt to completed list" do
-        attempt_uuid, _ = client.zpopmax("#{namespace}:completed", 1).as(Array).map(&.as(String))
+        attempt_uuid, _ = client.zpopmax("#{namespace}:completed:default", 1).as(Array).map(&.as(String))
         attempt_uuid.should be_truthy
       end
 
       it "does not add attempt to failed list" do
-        client.zcard("#{namespace}:failed").should eq 0
+        client.zcard("#{namespace}:failed:default").should eq 0
       end
 
       it "doesn't persist attempt in processing list" do
-        client.scard("#{namespace}:processing").should eq 0
+        client.scard("#{namespace}:processing:default").should eq 0
       end
 
       it "saves attempt data" do
@@ -90,16 +90,16 @@ class Onyx::Background::Worker
       attempt_uuid = uninitialized String
 
       it "adds attempt to failed list" do
-        attempt_uuid, _ = client.zpopmax("#{namespace}:failed", 1).as(Array).map(&.as(String))
+        attempt_uuid, _ = client.zpopmax("#{namespace}:failed:default", 1).as(Array).map(&.as(String))
         attempt_uuid.should be_truthy
       end
 
       it "does not add attempt to completed list" do
-        client.zcard("#{namespace}:completed").should eq 0
+        client.zcard("#{namespace}:completed:default").should eq 0
       end
 
       it "doesn't persist attempt in processing list" do
-        client.scard("#{namespace}:processing").should eq 0
+        client.scard("#{namespace}:processing:default").should eq 0
       end
 
       it "saves attempt data" do

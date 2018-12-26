@@ -89,7 +89,7 @@ class Onyx::Background::Worker
       end
     end
 
-    keys = @queues.to_a.map { |q| "#{@namespace}:queues:ready:#{q}" }
+    keys = @queues.to_a.map { |q| "#{@namespace}:ready:#{q}" }
 
     loop do
       break if @stopping
@@ -97,8 +97,8 @@ class Onyx::Background::Worker
       client, client_id = redis_pool_get(@redis_client_id)
       @logger.debug("Waiting for a new job...")
 
-      job_uuid = begin
-        @redis.blpop(keys, 0).not_nil![1]
+      queue, job_uuid = begin
+        @redis.blpop(keys, 0).not_nil!
       rescue ex : Redis::Error
         # If the connection is UNBLOCKED, then it's intended
         # (presumably caused by `#stop`)
@@ -108,7 +108,9 @@ class Onyx::Background::Worker
         raise ex
       end
 
-      spawn process_job(client, client_id, job_uuid.as(String))
+      queue = queue.as(String).match(/#{@namespace}:ready:(\w+)/).not_nil![1]
+
+      spawn process_job(client, client_id, queue, job_uuid.as(String))
     end
 
     @running = false
@@ -164,7 +166,7 @@ class Onyx::Background::Worker
   end
 
   # Attempt to process a `Job` by its *job_uuid*.
-  protected def process_job(client : Redis, client_id : Int64, job_uuid : String)
+  protected def process_job(client : Redis, client_id : Int64, queue : String, job_uuid : String)
     @logger.debug("[#{job_uuid}] Attempting")
     started_at = Time.monotonic
 
@@ -174,7 +176,7 @@ class Onyx::Background::Worker
 
       attempt_uuid = UUID.random.to_s
       job["uuid"] = job_uuid
-      return unless create_attempt?(client, client_id, attempt_uuid, job)
+      return unless create_attempt?(client, client_id, attempt_uuid, queue, job)
 
       klass = self.class.job_class(job["cls"].as(String))
       instance = klass.from_json(job["arg"].as(String))
@@ -194,10 +196,10 @@ class Onyx::Background::Worker
         })
 
         # Remove the attempt from the processing list
-        pipe.srem("#{@namespace}:processing", attempt_uuid)
+        pipe.srem("#{@namespace}:processing:#{queue}", attempt_uuid)
 
         # Add the attempt to the completed list
-        pipe.zadd("#{@namespace}:completed", at.to_unix_ms, attempt_uuid)
+        pipe.zadd("#{@namespace}:completed:#{queue}", at.to_unix_ms, attempt_uuid)
       end
     rescue ex : Errors::JobNotFoundByUUID
       @logger.error("[#{attempt_uuid}] Job not found by UUID")
@@ -216,10 +218,10 @@ class Onyx::Background::Worker
           })
 
           # Remove the attempt from the processing list
-          pipe.srem("#{@namespace}:processing", attempt_uuid)
+          pipe.srem("#{@namespace}:processing:#{queue}", attempt_uuid)
 
           # Add the attempt to the failed list
-          pipe.zadd("#{@namespace}:failed", at.to_unix_ms, attempt_uuid)
+          pipe.zadd("#{@namespace}:failed:#{queue}", at.to_unix_ms, attempt_uuid)
         end
       end
     ensure
@@ -231,14 +233,16 @@ class Onyx::Background::Worker
     client : Redis,
     client_id : Int64,
     attempt_uuid : String,
+    queue : String,
     job : Hash
   ) : Bool
     client.pipelined do |pipe|
-      pipe.sadd("#{@namespace}:processing", attempt_uuid)
+      pipe.sadd("#{@namespace}:processing:#{queue}", attempt_uuid)
       pipe.hmset("#{@namespace}:attempts:#{attempt_uuid}", {
         "sta" => Time.now.to_unix_ms, # Started at
         "job" => job["uuid"],         # Job UUID
         "wrk" => client_id,           # Worker fiber Redis client ID
+        "que" => queue,               # Actual queue
       })
     end
 

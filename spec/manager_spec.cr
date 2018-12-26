@@ -44,7 +44,7 @@ class Onyx::Background::Manager
         end
 
         it "puts the job into ready queue" do
-          redis.lpop("#{namespace}:queues:ready:default").should eq uuid.to_s
+          redis.lpop("#{namespace}:ready:default").should eq uuid.to_s
         end
       end
 
@@ -61,11 +61,11 @@ class Onyx::Background::Manager
         end
 
         it "puts the job into scheduled queue" do
-          redis.zrank("#{namespace}:queues:scheduled:non-default", uuid).should eq 0
+          redis.zrank("#{namespace}:scheduled:non-default", uuid).should eq 0
         end
 
         it "does not put the job into ready queue" do
-          redis.lrem("#{namespace}:queues:ready:non-default", 0, uuid).should eq 0
+          redis.lrem("#{namespace}:ready:non-default", 0, uuid).should eq 0
         end
       end
     end
@@ -80,7 +80,7 @@ class Onyx::Background::Manager
       end
 
       it "removes the job from queues" do
-        redis.llen("#{namespace}:queues:scheduled:non-default").should eq 0
+        redis.llen("#{namespace}:scheduled:non-default").should eq 0
       end
 
       it "raises on non-existing UUID" do
