@@ -2,6 +2,7 @@ require "logger"
 require "redis"
 require "uuid"
 
+require "./errors/job_not_found_by_uuid"
 require "./ext/redis/commands"
 require "./worker/redis_pool"
 
@@ -169,7 +170,7 @@ class Onyx::Background::Worker
 
     begin
       job = client.fetch_hash("#{@namespace}:jobs:#{job_uuid}", "cls", "arg")
-      raise JobNotFoundByUUID.new(job_uuid) unless job.any?
+      raise Errors::JobNotFoundByUUID.new(job_uuid) unless job.any?
 
       attempt_uuid = UUID.random.to_s
       job["uuid"] = job_uuid
@@ -198,7 +199,7 @@ class Onyx::Background::Worker
         # Add the attempt to the completed list
         pipe.zadd("#{@namespace}:completed", at.to_unix_ms, attempt_uuid)
       end
-    rescue ex : JobNotFoundByUUID
+    rescue ex : Errors::JobNotFoundByUUID
       @logger.error("[#{attempt_uuid}] Job not found by UUID")
     rescue ex : Exception
       @logger.warn("[#{attempt_uuid}] Job error: " + ex.inspect_with_backtrace)

@@ -1,6 +1,8 @@
 require "logger"
 require "redis"
 
+require "./errors/job_not_found_by_uuid"
+
 # Watches for ready and stale jobs.
 #
 # In particular:

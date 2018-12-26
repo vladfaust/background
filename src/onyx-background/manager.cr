@@ -1,4 +1,5 @@
 require "./job"
+require "./errors/job_not_found_by_uuid"
 
 # The background processing manager.
 #
@@ -140,12 +141,12 @@ class Onyx::Background::Manager
   end
 
   # Remove a job by its *job_uuid*.
-  # Raises `JobNotFoundByUUID` if the job itself is not found or its queue in `nil`.
+  # Raises `Errors::JobNotFoundByUUID` if the job itself is not found or its queue in `nil`.
   # Returns falsey value if the job is not in the queue,
   # which means it's either already performed, removed or never been there.
   def dequeue(job_uuid uuid : UUID | String)
     queue = redis.hget("#{@namespace}:jobs:#{uuid}", "que")
-    raise JobNotFoundByUUID.new(uuid) unless queue
+    raise Errors::JobNotFoundByUUID.new(uuid) unless queue
 
     case redis
     when Redis

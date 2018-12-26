@@ -84,7 +84,7 @@ class Onyx::Background::Manager
       end
 
       it "raises on non-existing UUID" do
-        expect_raises Onyx::Background::JobNotFoundByUUID do
+        expect_raises Onyx::Background::Errors::JobNotFoundByUUID do
           manager.dequeue(uuid)
         end
       end
