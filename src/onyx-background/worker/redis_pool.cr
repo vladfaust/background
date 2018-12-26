@@ -12,10 +12,10 @@ class Onyx::Background::Worker
   @redis_pool = Array(Redis).new
   @redis_pool_is_using = Hash(Redis, Bool).new
   @redis_pool_client_ids = Hash(Redis, Int64).new
-  @redis_pool_last_used_at = Hash(Redis, Time).new
+  @redis_pool_last_used_at = Hash(Redis, Time::Span).new
 
   protected def redis_pool_cleanup(ttl = @redis_pool_ttl)
-    now = Time.now
+    now = Time.monotonic
 
     @redis_pool_last_used_at.each do |redis, time|
       if !@redis_pool_is_using[redis] && now - time >= ttl
@@ -73,7 +73,7 @@ class Onyx::Background::Worker
   end
 
   protected def redis_pool_return(redis : Redis)
-    @redis_pool_last_used_at[redis] = Time.now
+    @redis_pool_last_used_at[redis] = Time.monotonic
     @redis_pool << redis
     @redis_pool_is_using[redis] = false
   end
