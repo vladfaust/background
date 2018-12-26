@@ -179,9 +179,9 @@ class Onyx::Background::Worker
       instance = klass.from_json(job["arg"].as(String))
       instance.attempt_uuid = attempt_uuid
 
-      @logger.debug("[#{job_uuid}] Performing #{klass} #{job["arg"]}...")
+      @logger.debug("[#{attempt_uuid}] Performing #{klass} #{job["arg"]}...")
       instance.perform
-      @logger.debug("[#{job_uuid}] Completed")
+      @logger.debug("[#{attempt_uuid}] Completed")
 
       client.pipelined do |pipe|
         at = Time.now
@@ -199,9 +199,9 @@ class Onyx::Background::Worker
         pipe.zadd("#{@namespace}:completed", at.to_unix_ms, attempt_uuid)
       end
     rescue ex : JobNotFoundByUUID
-      @logger.error("[#{job_uuid}] Job not found by UUID")
+      @logger.error("[#{attempt_uuid}] Job not found by UUID")
     rescue ex : Exception
-      @logger.warn("[#{job_uuid}] Job error: " + ex.inspect_with_backtrace)
+      @logger.warn("[#{attempt_uuid}] Job error: " + ex.inspect_with_backtrace)
 
       if attempt_uuid
         client.pipelined do |pipe|
