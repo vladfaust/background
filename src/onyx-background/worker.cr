@@ -66,7 +66,7 @@ class Onyx::Background::Worker
     @redis = @redis_proc.call
     redis_client_id, _ = @redis.multi do |multi|
       multi.client_id
-      multi.client_setname("onyx-background-worker")
+      multi.client_setname("onyx-background-worker:#{@queues.join(',')}")
     end
 
     @redis_client_id = redis_client_id.as(Int64)
@@ -94,7 +94,7 @@ class Onyx::Background::Worker
     loop do
       break if @stopping
 
-      client, client_id = redis_pool_get
+      client, client_id = redis_pool_get(@redis_client_id)
       @logger.debug("Waiting for a new job...")
 
       job_uuid = begin

@@ -45,7 +45,7 @@ class Onyx::Background::Worker
     @logger.debug("Cleared the pool")
   end
 
-  protected def redis_pool_get(wait = @redis_pool_wait)
+  protected def redis_pool_get(worker_client_id : Int64, wait = @redis_pool_wait)
     if @redis_pool.any?
       client = @redis_pool.pop
       client_id = @redis_pool_client_ids[client]
@@ -55,7 +55,7 @@ class Onyx::Background::Worker
       client_id? = uninitialized Redis::Future
 
       client.multi do |multi|
-        multi.client_setname("onyx-background-worker-fiber")
+        multi.client_setname("onyx-background-worker-fiber:#{worker_client_id}")
         client_id? = multi.client_id
       end
 
@@ -66,7 +66,7 @@ class Onyx::Background::Worker
     else
       @logger.debug("Redis pool size limit exceeded, sleeping for #{wait.total_milliseconds.round(3)}ms")
       sleep(wait)
-      return redis_pool_get(wait)
+      return redis_pool_get(worker_client_id, wait)
     end
 
     return {client.not_nil!, client_id.not_nil!}
