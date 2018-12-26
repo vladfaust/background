@@ -119,4 +119,6 @@ $ env REDIS_URL=redis://localhost:6379/1 crystal spec
 
 ## Licensing
 
-This software is licensed under BSD 3-Clause License with "Commons Clause" License Condition v1.0. See [LICENSE](LICENSE).
+This software is licensed under [BSD 3-Clause License](LICENSE).
+
+[![Open Source Initiative](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/100px-Opensource.svg.png)](https://opensource.org/licenses/BSD-3-Clause)
