@@ -1,4 +1,4 @@
-<a href="https://onyxframework.org"><img align="right" width="115" height="115" src="https://onyxframework.org/img/logo.svg"></a>
+<a href="https://onyxframework.org"><img align="right" width="147" height="147" src="https://onyxframework.org/img/logo.svg"></a>
 
 # Onyx::Background
 
