@@ -12,3 +12,6 @@ dependencies:
   redis:
     github: stefanwille/crystal-redis
     version: ~> 2.1.1
+  time_format:
+    github: vladfaust/time_format.cr
+    version: ~> 0.1.1

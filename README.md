@@ -96,6 +96,55 @@ watcher = Onyx::Background::Watcher.new
 watcher.run
 ```
 
+### CLI
+
+A simple CLI is used to interact with Onyx::Background.
+
+```crystal
+# src/background-cli.cr
+require "onyx-background/cli"
+```
+
+```console
+$ crystal build -o cli src/background-cli.cr
+$ ./cli -h
+usage:
+    onyx-background-cli [command] [options]
+commands:
+    status                           Display system status
+options:
+    -h, --help                       Show this help
+```
+
+#### Status
+
+The `status` command displays the current system status:
+
+```console
+$ ./cli status -h
+usage:
+    onyx-background-cli status [options]
+options:
+    -q, --queue QUEUE                Comma-separated queue(s) ("default")
+    -r, --redis REDIS_URL            Redis URL
+    -n, --namespace NAMESPACE        Redis namespace ("onyx-background")
+    -v, --verbose                    Enable verbose mode
+    -h, --help                       Show this help
+```
+
+```console
+$ ./cli status -q high,low
+high
+workers fibers  jps ready scheduled processing  completed failed
+      4      4    0     0         0          0     500000      0
+
+low
+workers fibers  jps ready scheduled processing  completed failed
+      0      0    0     0         0          0          0      0
+```
+
+> 💡 **Pro tip:** use `watch -n 1 ./cli status` to continuously monitor the status.
+
 ## Development
 
 Redis is flushed during the spec, so you **must** specify a safe-to-flush Redis database in the `REDIS_URL`. To run the specs, use the following command:
