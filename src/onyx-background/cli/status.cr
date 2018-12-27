@@ -1,5 +1,31 @@
 class Onyx::Background
+  # This command allows to get the currnet system status.
+  # It displays all needed data in your terminal:
+  #
+  # ```console
+  # $ ./cli status -h
+  # usage:
+  #     onyx-background-cli status [options]
+  # options:
+  #     -q, --queue QUEUE                Comma-separated queue(s) ("default")
+  #     -r, --redis REDIS_URL            Redis URL
+  #     -n, --namespace NAMESPACE        Redis namespace ("onyx-background")
+  #     -v, --verbose                    Enable verbose mode
+  #     -h, --help                       Show this help
+  # ```
+  #
+  # ```console
+  # $ ./cli status -q high,low
+  # high
+  # workers fibers  jps ready scheduled processing  completed failed
+  #       4      4    0     0         0          0     500000      0
+  #
+  # low
+  # workers fibers  jps ready scheduled processing  completed failed
+  #       0      0    0     0         0          0          0      0
+  # ```
   module CLI::Status
+    # :nodoc:
     class Queue
       def initialize(
         @queue : String,
@@ -23,12 +49,15 @@ class Onyx::Background
       property! ready, scheduled, processing, completed, failed
     end
 
+    # :nodoc:
     record Worker, client_id : Int64, queues : Set(Queue)
 
+    # :nodoc:
     record Fiber, client_id : Int64, worker : Worker do
       property worker
     end
 
+    # :nodoc:
     def self.run
       started_at = Time.monotonic
 
