@@ -24,7 +24,7 @@ This publicly available open-source version has the following functionality:
 
 ### Performance
 
-Thorough benchmaring is to be done yet, however, currently a single Worker is able to process more than **7500 jobs per second** on my 0.9GHz machine with Redis instance running on itself.
+Thorough benchmaring is to be done yet, however, currently it is able to process more than **9000 jobs per second** on my 0.9GHz machine with Redis instance running on itself.
 
 ## Installation
 
