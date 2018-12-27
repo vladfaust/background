@@ -46,13 +46,38 @@
       
         <ul>
   
-  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Job" data-name="onyx::background::job">
-      <a href="../../Onyx/Background/Job.html">Job</a>
+  <li class="parent " data-id="github.com/onyxframework/background/Onyx/Background/CLI" data-name="onyx::background::cli">
+      <a href="../../Onyx/Background/CLI.html">CLI</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/CLI/Status" data-name="onyx::background::cli::status">
+      <a href="../../Onyx/Background/CLI/Status.html">Status</a>
       
     </li>
   
-  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/JobNotFoundByUUID" data-name="onyx::background::jobnotfoundbyuuid">
-      <a href="../../Onyx/Background/JobNotFoundByUUID.html">JobNotFoundByUUID</a>
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Onyx/Background/Errors" data-name="onyx::background::errors">
+      <a href="../../Onyx/Background/Errors.html">Errors</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Errors/JobNotFoundByUUID" data-name="onyx::background::errors::jobnotfoundbyuuid">
+      <a href="../../Onyx/Background/Errors/JobNotFoundByUUID.html">JobNotFoundByUUID</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Job" data-name="onyx::background::job">
+      <a href="../../Onyx/Background/Job.html">Job</a>
       
     </li>
   
@@ -160,7 +185,7 @@ which allows to use it in a <code>multi</code> or <code>pipelined</code> block:<
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/onyxframework/background/blob/f21cdd48c1a7cd976e6f5eaf3244cbc77d31b4f2/src/onyx-background/manager.cr#L21" target="_blank">
+      <a href="https://github.com/onyxframework/background/blob/5601ab9b5488e16132581437eaecce4a231cd940/src/onyx-background/manager.cr#L22" target="_blank">
         onyx-background/manager.cr
       </a>
     
@@ -268,7 +293,7 @@ which allows to use it in a <code>multi</code> or <code>pipelined</code> block:<
       <br/>
       <div>
         
-          [<a href="https://github.com/onyxframework/background/blob/f21cdd48c1a7cd976e6f5eaf3244cbc77d31b4f2/src/onyx-background/manager.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/onyxframework/background/blob/5601ab9b5488e16132581437eaecce4a231cd940/src/onyx-background/manager.cr#L37" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -289,14 +314,14 @@ which allows to use it in a <code>multi</code> or <code>pipelined</code> block:<
       </div>
       
         <div class="doc"><p>Remove a job by its <em>job_uuid</em>.
-Raises <code><a href="../../Onyx/Background/JobNotFoundByUUID.html">JobNotFoundByUUID</a></code> if the job itself is not found or its queue in <code>nil</code>.
+Raises <code><a href="../../Onyx/Background/Errors/JobNotFoundByUUID.html">Errors::JobNotFoundByUUID</a></code> if the job itself is not found or its queue in <code>nil</code>.
 Returns falsey value if the job is not in the queue,
 which means it's either already performed, removed or never been there.</p></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/onyxframework/background/blob/f21cdd48c1a7cd976e6f5eaf3244cbc77d31b4f2/src/onyx-background/manager.cr#L146" target="_blank">View source</a>]
+          [<a href="https://github.com/onyxframework/background/blob/5601ab9b5488e16132581437eaecce4a231cd940/src/onyx-background/manager.cr#L147" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -318,7 +343,7 @@ which means it's either already performed, removed or never been there.</p></div
       <br/>
       <div>
         
-          [<a href="https://github.com/onyxframework/background/blob/f21cdd48c1a7cd976e6f5eaf3244cbc77d31b4f2/src/onyx-background/manager.cr#L55" target="_blank">View source</a>]
+          [<a href="https://github.com/onyxframework/background/blob/5601ab9b5488e16132581437eaecce4a231cd940/src/onyx-background/manager.cr#L56" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -341,7 +366,7 @@ See <a href="#enqueue%28classklass%3AString%2Cpayload%3AString%3D%26quot%3B%7B%7
       <br/>
       <div>
         
-          [<a href="https://github.com/onyxframework/background/blob/f21cdd48c1a7cd976e6f5eaf3244cbc77d31b4f2/src/onyx-background/manager.cr#L67" target="_blank">View source</a>]
+          [<a href="https://github.com/onyxframework/background/blob/5601ab9b5488e16132581437eaecce4a231cd940/src/onyx-background/manager.cr#L68" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -367,7 +392,7 @@ See <a href="#enqueue%28classklass%3AString%2Cpayload%3AString%3D%26quot%3B%7B%7
       <br/>
       <div>
         
-          [<a href="https://github.com/onyxframework/background/blob/f21cdd48c1a7cd976e6f5eaf3244cbc77d31b4f2/src/onyx-background/manager.cr#L84" target="_blank">View source</a>]
+          [<a href="https://github.com/onyxframework/background/blob/5601ab9b5488e16132581437eaecce4a231cd940/src/onyx-background/manager.cr#L85" target="_blank">View source</a>]
         
       </div>
     </div>

@@ -46,13 +46,38 @@
       
         <ul>
   
-  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Job" data-name="onyx::background::job">
-      <a href="Onyx/Background/Job.html">Job</a>
+  <li class="parent " data-id="github.com/onyxframework/background/Onyx/Background/CLI" data-name="onyx::background::cli">
+      <a href="Onyx/Background/CLI.html">CLI</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/CLI/Status" data-name="onyx::background::cli::status">
+      <a href="Onyx/Background/CLI/Status.html">Status</a>
       
     </li>
   
-  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/JobNotFoundByUUID" data-name="onyx::background::jobnotfoundbyuuid">
-      <a href="Onyx/Background/JobNotFoundByUUID.html">JobNotFoundByUUID</a>
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/onyxframework/background/Onyx/Background/Errors" data-name="onyx::background::errors">
+      <a href="Onyx/Background/Errors.html">Errors</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Errors/JobNotFoundByUUID" data-name="onyx::background::errors::jobnotfoundbyuuid">
+      <a href="Onyx/Background/Errors/JobNotFoundByUUID.html">JobNotFoundByUUID</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Job" data-name="onyx::background::job">
+      <a href="Onyx/Background/Job.html">Job</a>
       
     </li>
   
@@ -113,6 +138,8 @@
 
 
 <div class="main-content">
+<p>&lt;a href="https://onyxframework.org">&lt;img align="right" width="147" height="147" src="https://onyxframework.org/img/logo.svg">&lt;/a></p>
+
 <h1>Onyx::Background</h1>
 
 <p><a href="https://crystal-lang.org" target="_blank"><img src="https://img.shields.io/badge/built%20with-crystal-000000.svg?style=flat-square" alt="Built with Crystal"/></a>
@@ -124,21 +151,31 @@
 
 <h2>About</h2>
 
-<p>This is a <a href="https://redis.io" target="_blank">Redis</a>-based background jobs processing for <a href="https://crystal-lang.org" target="_blank">Crystal</a> alternative to <a href="https://github.com/mperham/sidekiq.cr" target="_blank">sidekiq</a> and <a href="https://github.com/robacarp/mosquito" target="_blank">mosquito</a>. It's a component of <a href="https://github.com/onyxframework" target="_blank">Onyx Framework</a>, but can be used separately.</p>
+<p>This is a <a href="https://redis.io" target="_blank">Redis</a>-based background jobs processing for <a href="https://crystal-lang.org" target="_blank">Crystal</a>, alternative to <a href="https://github.com/mperham/sidekiq.cr" target="_blank">sidekiq</a> and <a href="https://github.com/robacarp/mosquito" target="_blank">mosquito</a>. It's a component of <a href="https://github.com/onyxframework" target="_blank">Onyx Framework</a>, but can be used separately.</p>
+
+<h3>Goals</h3>
+
+<p>Just like all other <a href="https://github.com/onyxframework" target="_blank">@onyxframework</a> components, Onyx::Background aims to be as much novice-friendly as possible, still being able to scale with a developer's knowledge of Crystal, thus having these goals:</p>
+
+<ul><li>Speed — taking the best from Crystal performance</li><li>Simplicity — the shard API is simpler than alternatives'</li><li>Modularity — most of the components are replaceable</li><li>Expandability — every component may be re-opened and added with new functionality</li><li>Failure-safety — the whole system is stateless, allowing any of its parts to fail and re-run safely without locking overhead</li><li>No Crystal lock-in — a simple manager can be written in any language with Redis driver</li></ul>
 
 <h3>Features</h3>
 
 <p>This publicly available open-source version has the following functionality:</p>
 
-<ul><li>Enqueuing jobs for immediate processing</li><li>Enqueuing jobs for delayed processing (i.e. <code>in: 5.minutes</code> or <code>at: Time.now + 1.hour</code>)</li><li>Different job queues (<code>"default"</code> by default)</li><li>Concurrent jobs processing (with a separate Redis client for each fiber)</li><li>Verbose Redis logging of all the activity (i.e. every attempt made)</li><li>Moving stale jobs (i.e. with dead workers) to the failed list</li></ul>
+<ul><li>Enqueuing jobs for immediate processing</li><li>Enqueuing jobs for delayed processing (i.e. <code>in: 5.minutes</code> or <code>at: Time.now + 1.hour</code>)</li><li>Different job queues (<code>"default"</code> by default)</li><li>Concurrent jobs processing (with a separate Redis client for each fiber)</li><li>Verbose Redis logging of all the activity (i.e. every attempt made)</li><li>Rescuing errors and moving failed jobs to the failed list</li><li>Moving stale jobs (i.e. with dead workers) to the failed list</li><li>CLI</li></ul>
+
+<p>If you want more features and professional support, consider purchasing a commercial license at <a href="https://onyxframework.com" target="_blank">onyxframework.com</a>.</p>
 
 <h3>Performance</h3>
 
-<p>Thorough benchmaring is to be done yet, however, currently a single Worker is able to process more than <strong>7500 jobs per second</strong> on my 0.9GHz machine with Redis instance running on itself.</p>
+<p>Thorough benchmaring is to be done yet, however, currently it is able to process more than <strong>9000 jobs per second</strong> on my 0.9GHz machine with Redis instance running on itself.</p>
+
+<p><img src="https://vignette.wikia.nocookie.net/dragonball/images/4/4b/VegetaItsOver9000-02.png/revision/latest?cb=20100724145819" alt="It's over 9000!"/></p>
 
 <h2>Installation</h2>
 
-<p>Onyx::Background works with Redis version <code>~> 5.0</code>.</p>
+<blockquote>⚠️ <strong>Note:</strong> Onyx::Background works with Redis version <code>~> 5.0</code></blockquote>
 
 <p>Add this to your application's <code>shard.yml</code>:</p>
 
@@ -155,7 +192,7 @@
 
 <p>Please refer to API documentation available online: <a href="https://api.onyxframework.org/background" target="_blank">https://api.onyxframework.org/background</a></p>
 
-<p><em>Note: it is updated on every master branch commit</em></p>
+<blockquote><strong>Note:</strong> it is automatically updated on every master branch commit</blockquote>
 
 <h3>Example</h3>
 
@@ -198,6 +235,119 @@ D -- worker: [fa5b6d65-46fe-4c88-829f-d69023c4c6de] Completed</code></pre>
 watcher <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Watcher</span>.<span class="k">new</span>
 watcher.run</code></pre>
 
+<h3>CLI</h3>
+
+<p>A simple <a href="https://api.onyxframework.org/background/Onyx/Background/CLI.html" target="_blank"><code>Onyx::Background::CLI</code></a> is used to interact with Onyx::Background.</p>
+
+<pre><code class="language-crystal"><span class="c"># src/background-cli.cr</span>
+<span class="k">require</span> <span class="s">&quot;onyx-background/cli&quot;</span></code></pre>
+
+<pre><code class="language-console">$ crystal build -o cli src/background-cli.cr
+$ ./cli -h
+usage:
+    onyx-background-cli [command] [options]
+commands:
+    status                           Display system status
+options:
+    -h, --help                       Show this help</code></pre>
+
+<h4>Status</h4>
+
+<p>The <code>status</code> command displays the current system status:</p>
+
+<pre><code class="language-console">$ ./cli status -h
+usage:
+    onyx-background-cli status [options]
+options:
+    -q, --queue QUEUE                Comma-separated queue(s) ("default")
+    -r, --redis REDIS_URL            Redis URL
+    -n, --namespace NAMESPACE        Redis namespace ("onyx-background")
+    -v, --verbose                    Enable verbose mode
+    -h, --help                       Show this help</code></pre>
+
+<pre><code class="language-console">$ ./cli status -q high,low
+high
+workers fibers  jps ready scheduled processing  completed failed
+      4      4    0     0         0          0     500000      0
+
+low
+workers fibers  jps ready scheduled processing  completed failed
+      0      0    0     0         0          0          0      0</code></pre>
+
+<blockquote><strong>Tip:</strong> use <code>watch -n 1 ./cli status</code> to continuously monitor the status</blockquote>
+
+<h2>Architecture</h2>
+
+<p>In this section the system architecture is explained.</p>
+
+<h3>Storing a job</h3>
+
+<blockquote><strong>Tip:</strong> only this functionality is likely to be implemented in another language driver</blockquote>
+
+<p>A <em>job</em> hash is saved into Redis with an unique UUID at <code>"jobs:<uuid>"</code> key after <a href="https://api.onyxframework.org/background/Onyx/Background/Manager.html#enqueue%28job%3AJob%2C%2A%2Anargs%29-instance-method" target="_blank"><code>Onyx::Background::Manager#enqueue</code></a> call:</p>
+
+<pre><code class="language-crystal">manager <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Manager</span>.<span class="k">new</span>
+manager.enqueue(<span class="t">Jobs</span><span class="t">::</span><span class="t">Nap</span>.<span class="k">new</span>, <span class="k">in</span>: <span class="n">5</span>.minutes)</code></pre>
+
+<p>Key | Example | Description
+--- | --- | ---
+que | default | The job's queue
+cls | Jobs::Nap | The job's class, should be available in the Worker program
+arg | {"sleep":1} | The job's arguments, usually a JSON string
+qat | 1545906554934 | The time the job's been queued at
+pat | 1545906870368 | The time the job's been scheduled to be processed at (none if immediate)</p>
+
+<p>The job UUID is also pushed to the <code>"ready:<queue>"</code> list or <code>"scheduled:<queue>"</code> sorted set (with score equal to scheduled time in milliseconds) for further processing.</p>
+
+<h3>Working</h3>
+
+<p>When an <a href="https://api.onyxframework.org/background/Onyx/Background/Worker.html" target="_blank"><code>Onyx::Background::Worker</code></a> runs, its Redis client name is set to <code>"onyx-background-worker:<queues>"</code> (with comma-separated queues this worker is watching). It then <code>BLPOP</code>s the <code>"ready:<queue>"</code> list and spawns a separate fiber with a new instance of Redis client (it's pooled internally for better performance) for every popped job UUID.</p>
+
+<p>This fiber's Redis client name is set to <code>"onyx-background-worker-fiber:<worker_client_id>"</code>. Afterwards it saves an unique <em>attempt</em> hash for a particular job at <code>"attempts:<attempt_uuid>"</code> key, which looks like this:</p>
+
+<p>Key | Example | Description
+--- | --- | ---
+sta | 1545907080109 | The time the attempt was started at
+job | d62f4c9a-... | The job's UUID
+wrk | 342 | The fiber's Redis client ID
+que | default | The actual processing queue</p>
+
+<p>And adds the attempt UUID to the <code>"processing:<queue>"</code> set.</p>
+
+<p>Thereafter, in case of successful job processing, the attempt is updated with finished at and processing time values:</p>
+
+<p>Key | Example | Description
+--- | --- | ---
+fin | 1545907080110 | The time the attempt was finished at
+time | 1.0 | The job processing time, in milliseconds</p>
+
+<p>If the job raised an error, the attempt is updated with these values:</p>
+
+<p>Key | Example | Description
+--- | --- | ---
+fin | 1545907080110 | The time the attempt was finished at
+time | 1.0 | The job processing time, in milliseconds
+err | IndexOutOfBounds | The unhandled exception class</p>
+
+<p>The attempt UUID is then removed from the <code>"processing:<queue>"</code> set and added into <code>"completed:<queue>"</code> or <code>"failed:<queue>"</code> sorted set (with score equal to current time in milliseconds) depending on the result.</p>
+
+<h3>Watching</h3>
+
+<p><a href="https://api.onyxframework.org/background/Onyx/Background/Watcher.html" target="_blank">Onyx::Background::Watcher</a> is used to watch for stale attempts (which workers are offline) and move jobs from the <code>"scheduled:<queue>"</code> sorted set to the <code>"ready:<queue>"</code> list:</p>
+
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;onyx-background&quot;</span>
+
+watcher <span class="o">=</span> <span class="t">Onyx</span><span class="t">::</span><span class="t">Background</span><span class="t">::</span><span class="t">Watcher</span>.<span class="k">new</span>
+watcher.run</code></pre>
+
+<p>The watcher loops every <em>interval</em> (defaults to 1 second) and does the following:</p>
+
+<ol><li>Gets all the clients list from Redis and compares it with attempts stored in the <code>"processing:<queue>"</code> set. If an attempt's fiber client ID (the <code>"wrk"</code> key) is not found in the list of active clients, it's considered stale then and fails with a <code>"Worker Timeout"</code> error</li><li>Gets all jobs from <code>"scheduled:<queue>"</code> sorted set which have a score less than <code>Time.now.to_unix_ms</code> and moves them to the <code>"ready:<queue>"</code> list.</li></ol>
+
+<blockquote>⚠️ <strong>Note:</strong> in case of multiple watchers watching the same queue, a duplication error may appear!</blockquote>
+
+<p>For a deeper understaing of the architecture, feel free to dive into the source code, it's quite well documented!</p>
+
 <h2>Development</h2>
 
 <p>Redis is flushed during the spec, so you <strong>must</strong> specify a safe-to-flush Redis database in the <code>REDIS_URL</code>. To run the specs, use the following command:</p>
@@ -210,11 +360,13 @@ watcher.run</code></pre>
 
 <h2>Contributors</h2>
 
-<ul><li><a href="https://github.com/vladfaust" target="_blank">@vladfaust</a> Vlad Faust - creator, maintainer</li></ul>
+<ul><li><a href="https://github.com/vladfaust" target="_blank">Vlad Faust</a> - creator and maintainer</li></ul>
 
 <h2>Licensing</h2>
 
-<p>This software is licensed under BSD 3-Clause License with "Commons Clause" License Condition v1.0. See <a href="LICENSE" target="_blank">LICENSE</a>.</p>
+<p>This software is licensed under <a href="LICENSE" target="_blank">BSD 3-Clause License</a>.</p>
+
+<p><a href="https://opensource.org/licenses/BSD-3-Clause" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/100px-Opensource.svg.png" alt="Open Source Initiative"/></a></p>
 </div>
 </body>
 </html>

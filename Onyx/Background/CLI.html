@@ -6,15 +6,15 @@
 <meta name="generator" content="Crystal Docs 0.27.0">
 
 
-<link href="../css/style.css" rel="stylesheet" type="text/css">
+<link href="../../css/style.css" rel="stylesheet" type="text/css">
 
-<script type="text/javascript" src="../js/doc.js"></script>
+<script type="text/javascript" src="../../js/doc.js"></script>
 <script type="text/javascript">
-  CrystalDoc.base_path = "../";
+  CrystalDoc.base_path = "../../";
 </script>
 
   <meta id="repository-name" content="github.com/onyxframework/background">
-  <title>Onyx::Background - github.com/onyxframework/background</title>
+  <title>Onyx::Background::CLI - github.com/onyxframework/background</title>
 </head>
 <body>
 
@@ -25,7 +25,7 @@
     </div>
 
     <div class="repository-links">
-      <a href="../index.html">README</a>
+      <a href="../../index.html">README</a>
     </div>
   </div>
 
@@ -37,22 +37,22 @@
     <ul>
   
   <li class="parent open current" data-id="github.com/onyxframework/background/Onyx" data-name="onyx">
-      <a href="../Onyx.html">Onyx</a>
+      <a href="../../Onyx.html">Onyx</a>
       
         <ul>
   
   <li class="parent open current" data-id="github.com/onyxframework/background/Onyx/Background" data-name="onyx::background">
-      <a href="../Onyx/Background.html">Background</a>
+      <a href="../../Onyx/Background.html">Background</a>
       
         <ul>
   
-  <li class="parent " data-id="github.com/onyxframework/background/Onyx/Background/CLI" data-name="onyx::background::cli">
-      <a href="../Onyx/Background/CLI.html">CLI</a>
+  <li class="parent open current" data-id="github.com/onyxframework/background/Onyx/Background/CLI" data-name="onyx::background::cli">
+      <a href="../../Onyx/Background/CLI.html">CLI</a>
       
         <ul>
   
   <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/CLI/Status" data-name="onyx::background::cli::status">
-      <a href="../Onyx/Background/CLI/Status.html">Status</a>
+      <a href="../../Onyx/Background/CLI/Status.html">Status</a>
       
     </li>
   
@@ -62,12 +62,12 @@
     </li>
   
   <li class="parent " data-id="github.com/onyxframework/background/Onyx/Background/Errors" data-name="onyx::background::errors">
-      <a href="../Onyx/Background/Errors.html">Errors</a>
+      <a href="../../Onyx/Background/Errors.html">Errors</a>
       
         <ul>
   
   <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Errors/JobNotFoundByUUID" data-name="onyx::background::errors::jobnotfoundbyuuid">
-      <a href="../Onyx/Background/Errors/JobNotFoundByUUID.html">JobNotFoundByUUID</a>
+      <a href="../../Onyx/Background/Errors/JobNotFoundByUUID.html">JobNotFoundByUUID</a>
       
     </li>
   
@@ -77,22 +77,22 @@
     </li>
   
   <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Job" data-name="onyx::background::job">
-      <a href="../Onyx/Background/Job.html">Job</a>
+      <a href="../../Onyx/Background/Job.html">Job</a>
       
     </li>
   
   <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Manager" data-name="onyx::background::manager">
-      <a href="../Onyx/Background/Manager.html">Manager</a>
+      <a href="../../Onyx/Background/Manager.html">Manager</a>
       
     </li>
   
   <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Watcher" data-name="onyx::background::watcher">
-      <a href="../Onyx/Background/Watcher.html">Watcher</a>
+      <a href="../../Onyx/Background/Watcher.html">Watcher</a>
       
     </li>
   
   <li class=" " data-id="github.com/onyxframework/background/Onyx/Background/Worker" data-name="onyx::background::worker">
-      <a href="../Onyx/Background/Worker.html">Worker</a>
+      <a href="../../Onyx/Background/Worker.html">Worker</a>
       
     </li>
   
@@ -107,17 +107,17 @@
     </li>
   
   <li class="parent " data-id="github.com/onyxframework/background/Redis" data-name="redis">
-      <a href="../Redis.html">Redis</a>
+      <a href="../../Redis.html">Redis</a>
       
         <ul>
   
   <li class="parent " data-id="github.com/onyxframework/background/Redis/Commands" data-name="redis::commands">
-      <a href="../Redis/Commands.html">Commands</a>
+      <a href="../../Redis/Commands.html">Commands</a>
       
         <ul>
   
   <li class=" " data-id="github.com/onyxframework/background/Redis/Commands/ClientType" data-name="redis::commands::clienttype">
-      <a href="../Redis/Commands/ClientType.html">ClientType</a>
+      <a href="../../Redis/Commands/ClientType.html">ClientType</a>
       
     </li>
   
@@ -140,19 +140,35 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Onyx::Background
+  <span class="kind">module</span> Onyx::Background::CLI
 
 </h1>
 
-
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Onyx/Background.html">Onyx::Background</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
 
 
 
 
   <h2>Overview</h2>
 
-  <p>A fast background job processing for Crystal.</p>
+  <p>The Command Line Interface module. Require it to automatically parse program arguments:</p>
+
+<pre><code><span class="c"># src/cli.cr</span>
+<span class="k">require</span> <span class="s">&quot;onyx-background/cli&quot;</span></code></pre>
+
+<p>You can run the CLI with <code>crystal</code> command, using <code>--</code> as arguments delimeter:</p>
+
+<pre><code class="language-console">$ crystal src/cli.cr -- status -v</code></pre>
+
+<p>Or you can build the CLI into a binary:</p>
+
+<pre><code class="language-console">$ crystal build -o cli src/cli.cr --release
+$ ./cli -h
+usage:
+    onyx-background-cli [command] [options]
+commands:
+    status                           Display system status
+options:
+    -h, --help                       Show this help</code></pre>
 
 
 
@@ -170,29 +186,8 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/onyxframework/background/blob/5601ab9b5488e16132581437eaecce4a231cd940/src/onyx-background/namespace.cr#L4" target="_blank">
-        onyx-background/namespace.cr
-      </a>
-    
-    <br/>
-  
-    
-      <a href="https://github.com/onyxframework/background/blob/5601ab9b5488e16132581437eaecce4a231cd940/src/onyx-background/job.cr#L4" target="_blank">
-        onyx-background/job.cr
-      </a>
-    
-    <br/>
-  
-    
-      <a href="https://github.com/onyxframework/background/blob/5601ab9b5488e16132581437eaecce4a231cd940/src/onyx-background/errors/job_not_found_by_uuid.cr#L3" target="_blank">
-        onyx-background/errors/job_not_found_by_uuid.cr
-      </a>
-    
-    <br/>
-  
-    
-      <a href="https://github.com/onyxframework/background/blob/5601ab9b5488e16132581437eaecce4a231cd940/src/onyx-background/cli/status.cr#L1" target="_blank">
-        onyx-background/cli/status.cr
+      <a href="https://github.com/onyxframework/background/blob/5601ab9b5488e16132581437eaecce4a231cd940/src/onyx-background/cli.cr#L33" target="_blank">
+        onyx-background/cli.cr
       </a>
     
     <br/>
@@ -211,26 +206,6 @@
 
 
 <div class="methods-inherited">
-  
-    
-
-
-    
-
-
-    
-
-
-  
-    
-
-
-    
-
-
-    
-
-
   
 </div>
 
